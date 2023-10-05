@@ -14,8 +14,8 @@
         android:layout_marginTop="1dp"
         android:layout_marginEnd="1dp"
         android:layout_marginBottom="1dp"
-        android:orientation="vertical"
         android:background="@color/background"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -79,8 +79,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="123dp"
-            android:orientation="horizontal"
-            android:backgroundTint="@color/background">
+            android:backgroundTint="@color/background"
+            android:orientation="horizontal">
 
 
             <Button
@@ -92,8 +92,8 @@
                 android:layout_weight="1"
                 android:backgroundTint="@color/peach"
                 android:fontFamily="@font/marykateregular"
-                android:text="i"
                 android:onClick="onSpeech"
+                android:text="i"
                 android:textSize="41sp" />
 
             <Button
@@ -104,8 +104,8 @@
                 android:layout_marginTop="40sp"
                 android:layout_marginRight="40sp"
                 android:layout_weight="1"
-                android:fontFamily="@font/marykateregular"
                 android:backgroundTint="@color/peach"
+                android:fontFamily="@font/marykateregular"
                 android:text="START"
                 android:textSize="35sp" />
 
