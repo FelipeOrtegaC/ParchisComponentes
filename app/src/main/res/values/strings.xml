@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">ParchisComponentes</string>
+    <string name="botonDado">Lanzar!</string>
+    <string name="txtPuntaje">Puntaje: </string>
+    <string name="txtTiempo">Tiempo:</string>
+    <string name="txtTitulo">Serpientes y Escaleras</string>
+    <string name="txtPjugador">Nombre del jugador</string>
+    <string name="txtSjugador">Codigo de sala</string>
+    <string name="dado">1</string>
+    <string name="dadodos">1</string>
+</resources>
