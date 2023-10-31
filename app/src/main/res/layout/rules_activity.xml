@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="1dp"
+        android:layout_marginEnd="1dp"
+        android:layout_marginBottom="1dp"
+        android:background="@color/background"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+
+        <TextView
+            android:id="@+id/textVie"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/marykateregular"
+            android:text="REGLAS"
+            android:textAlignment="center"
+            android:textSize="60dp" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:fontFamily="@font/marykateregular"
+            android:text="Se mata a un jugador si una ficha distinta cae en una casilla en la que está otra ficha de otro jugador."
+            android:textAlignment="center"
+            android:textSize="18dp" />
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="wrap_content"
+            android:layout_height="177dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="11dp"
+            android:background="@drawable/firstrule" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:fontFamily="@font/marykateregular"
+            android:text="Si el jugador tiene sus dos fichas en carcel solo podra salir con par de 5."
+            android:textAlignment="center"
+            android:textSize="18dp" />
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="11dp"
+            android:background="@drawable/secondrule" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:fontFamily="@font/marykateregular"
+            android:text="Si se saca tres veces par, se va para la cárcel."
+            android:textAlignment="center"
+            android:textSize="18dp" />
+
+        <ImageView
+            android:id="@+id/imageView3"
+            android:layout_width="265dp"
+            android:layout_height="156dp"
+            android:layout_marginTop="11dp"
+            android:layout_gravity="center"
+            android:background="@drawable/thirdrule" />
+
+        <Button
+            android:id="@+id/backbutton"
+            android:layout_width="146dp"
+            android:layout_height="54dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="25dp"
+            android:backgroundTint="@color/black"
+            android:fontFamily="@font/marykateregular"
+            android:text="Regresar"
+            android:textAlignment="center"
+            android:textSize="28dp" />
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

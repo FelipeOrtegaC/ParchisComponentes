@@ -21,6 +21,7 @@ import android.content.Intent
                   var txtName2 = findViewById<TextView>(R.id.etxtSplayer)
 
                   val btn: Button = findViewById(R.id.btnStart)
+                  val info: Button = findViewById(R.id.btnInfo)
                   btn.setOnClickListener {
                       val name1 = txtName1.text.toString()
                       val name2 = txtName2.text.toString()
@@ -28,6 +29,10 @@ import android.content.Intent
                       intent.putExtra("Nombre1", name1)
                       intent.putExtra("Nombre2", name2)
                       startActivity(intent)
+                  }
+                  info.setOnClickListener {
+                  val intent: Intent = Intent(this, RulesActivity::class.java)
+                  startActivity(intent)
                   }
               }
           }

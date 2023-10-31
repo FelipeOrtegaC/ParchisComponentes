@@ -25,6 +25,10 @@
             android:name=".BoardActivity"
             android:exported="false">
         </activity>
+        <activity
+            android:name=".RulesActivity"
+            android:exported="false">
+        </activity>
     </application>
 
 </manifest>
