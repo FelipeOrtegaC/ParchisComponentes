@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1047722169271",
+    "project_id": "parchiscomponentes",
+    "storage_bucket": "parchiscomponentes.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1047722169271:android:14ad738234c5bacdac4e32",
+        "android_client_info": {
+          "package_name": "com.serpientesescaleras.parchiscomponentes"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCVSMVd70ET6xCzTORcEryaOPtcW3FbhCc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

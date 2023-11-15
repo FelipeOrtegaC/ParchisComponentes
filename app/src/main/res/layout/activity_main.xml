@@ -46,8 +46,8 @@
             android:background="@drawable/ingreso"
             android:ems="10"
             android:fontFamily="@font/marykateregular"
+            android:hint="Nombre"
             android:inputType="text"
-            android:text="Nombre"
             android:textAlignment="center"
             android:textColor="@color/platinum"
             android:textSize="40sp" />
@@ -70,8 +70,8 @@
             android:background="@drawable/ingreso"
             android:ems="10"
             android:fontFamily="@font/marykateregular"
+            android:hint="0000"
             android:inputType="text"
-            android:text="0000"
             android:textAlignment="center"
             android:textColor="@color/platinum"
             android:textSize="40sp" />
