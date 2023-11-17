@@ -29,12 +29,21 @@ class MainActivity : AppCompatActivity() {
 
       btn.setOnClickListener {
           val name = txtName1.text.toString()
+          val intent: Intent = Intent(this, BoardActivity::class.java)
+          intent.putExtra("Nombre1",name)
+          startActivity(intent)
+      }
+
+      /*
+      btn.setOnClickListener {
+          val name = txtName1.text.toString()
           val Key = txtSala.text.toString()
           
 
           val intent: Intent = Intent(this, LoadActivity::class.java)
           startActivity(intent)
       }
+      */
 
       info.setOnClickListener {
       val intent: Intent = Intent(this, RulesActivity::class.java)

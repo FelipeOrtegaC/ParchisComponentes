@@ -1,31 +1,437 @@
 package com.serpientesescaleras.parchiscomponentes
 
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.serpientesescaleras.parchiscomponentes.Model.Fichas
+import com.serpientesescaleras.parchiscomponentes.Model.Jugador
 import com.serpientesescaleras.parchiscomponentes.Model.TableroMap
 import com.serpientesescaleras.parchiscomponentes.Model.TipoCasilla
+import kotlin.random.Random
 
 //import com.google.firebase.Firebase
 
 class BoardActivity : AppCompatActivity() {
     private val mapa = mutableListOf<TableroMap>()
     private val fichas = mutableListOf<Fichas>()
+    private val jugadores = mutableListOf<Jugador>()
+    private var Resultado: Int = 0
+    private var Resultado2: Int = 0
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.board_activity)
         val home: ImageButton = findViewById(R.id.btnReturn)
 
+        //Tomamos los nombres de los jugadores
+        var txtNombre1: TextView = findViewById(R.id.txtJugador1)
+        var txtNombre2: TextView = findViewById(R.id.txtJugador2)
+
+        val name1: String? = intent.getStringExtra("Nombre1")
+        val name2: String = "Felipe"
+
+        if (name1 != null){
+            jugadores.add(Jugador(1,name1, true, "GREEN"))
+            txtNombre1.text = "Jugador:\n"+name1
+        }else{
+            jugadores.add(Jugador(1,"Jugador 1", true, "GREEN"))
+            txtNombre1.text = "Jugador:\n"+ "Jugador 1"
+        }
+
+        jugadores.add(Jugador(2, name2, false, "BLUE"))
+        txtNombre2.text = "Jugador:\n"+name2
+
+        //Activamos el mapeo del tablero
+        activeMap()
+
+        val btnLanzar: Button = findViewById(R.id.botonDado)
+        var intento: Int = 1
+        var par: Int = 1
+        var txtToast: TextView = findViewById(R.id.txtGanador)
+
+        btnLanzar.setOnClickListener {
+            val Dado = Random
+            val Dado2 = Random
+            Resultado = Dado.nextInt(6) + 1
+            Resultado2 = Dado2.nextInt(6) + 1
+            val txtDado1: TextView = findViewById(R.id.dado)
+            val txtDado2: TextView = findViewById(R.id.dadodos)
+
+            txtDado1.text = Resultado.toString()
+            txtDado2.text = Resultado2.toString()
+
+            if (Resultado == 5 && Resultado2 == 5 && fichas[0].Posicion == 0 && fichas[1].Posicion == 0 && jugadores[0].turno == true){
+                fichas[0].PosAnterior = fichas[0].Celda
+                fichas[0].Posicion = 56
+                actualizarVistaFichaEnCasilla(0,0,56)
+
+                fichas[1].PosAnterior = fichas[1].Celda
+                fichas[1].Posicion = 56
+                actualizarVistaFichaEnCasilla(0,1,56)
+
+
+                jugadores[0].turno == false
+                jugadores[1].turno == true
+                txtToast.text = "Turno: "+jugadores[1].nombre
+            } else if (Resultado == 5 && Resultado2 == 5 && fichas[2].Posicion == 0 && fichas[3].Posicion == 0 && jugadores[1].turno == true){
+                fichas[2].PosAnterior = fichas[2].Celda
+                fichas[2].Posicion = 22
+                actualizarVistaFichaEnCasilla(1,2,22)
+
+                fichas[3].PosAnterior = fichas[3].Celda
+                fichas[3].Posicion = 22
+                actualizarVistaFichaEnCasilla(1,3,22)
+
+
+
+
+                jugadores[1].turno == false
+                jugadores[0].turno == true
+                txtToast.text = "Turno: "+jugadores[0].nombre
+            } else {
+                if (jugadores[0].turno == true && fichas[0].Posicion == fichas[0].Celda && fichas[1].Posicion == fichas[1].Celda){
+                    jugadores[0].turno == false
+                    jugadores[1].turno == true
+                    txtToast.text = "Turno: "+jugadores[1].nombre
+                } else if (jugadores[1].turno == true && fichas[2].Posicion == fichas[2].Celda && fichas[3].Posicion == fichas[3].Celda){
+                    jugadores[1].turno == false
+                    jugadores[0].turno == true
+                    txtToast.text = "Turno: "+jugadores[0].nombre
+                }
+            }
+        }
+
+        val btnF1 : Button = findViewById(R.id.btnFicha1)
+        val btnF2 : Button = findViewById(R.id.btnFicha2)
+
+
+
+        btnF1.setOnClickListener{
+            if (jugadores[0].turno == true){
+                if(Resultado == Resultado2 && fichas[0].Posicion != 0){
+                    fichas[0].PosAnterior = fichas[0].Posicion
+                    fichas[0].Posicion = fichas[0].Posicion + Resultado + Resultado2
+                    actualizarVistaFichaEnCasilla(0,0,fichas[0].Posicion)
+                } else {
+                    if (Resultado != 0){
+                        fichas[0].PosAnterior = fichas[0].Posicion
+                        fichas[0].Posicion = fichas[0].Posicion + Resultado
+                        actualizarVistaFichaEnCasilla(0,0,fichas[0].Posicion)
+                        Resultado = 0
+                    }else if (Resultado2 != 0){
+                        fichas[0].PosAnterior = fichas[0].Posicion
+                        fichas[0].Posicion = fichas[0].Posicion + Resultado2
+                        actualizarVistaFichaEnCasilla(0,0,fichas[0].Posicion)
+                    }
+                }
+
+                jugadores[0].turno == false
+                jugadores[1].turno == true
+                txtToast.text = "Turno: "+jugadores[1].nombre
+            }else if(jugadores[1].turno == true){
+                if(Resultado == Resultado2 && fichas[2].Posicion != 0){
+                    fichas[2].PosAnterior = fichas[2].Posicion
+                    fichas[2].Posicion = fichas[2].Posicion + Resultado + Resultado2
+                    actualizarVistaFichaEnCasilla(1,2,fichas[2].Posicion)
+                } else {
+                    if (Resultado != 0){
+                        fichas[2].PosAnterior = fichas[2].Posicion
+                        fichas[2].Posicion = fichas[2].Posicion + Resultado
+                        actualizarVistaFichaEnCasilla(1,2,fichas[2].Posicion)
+                        Resultado = 0
+                    }else if (Resultado2 != 0){
+                        fichas[2].PosAnterior = fichas[2].Posicion
+                        fichas[2].Posicion = fichas[2].Posicion + Resultado2
+                        actualizarVistaFichaEnCasilla(1,2,fichas[2].Posicion)
+                    }
+                }
+
+                jugadores[1].turno == false
+                jugadores[0].turno == true
+                txtToast.text = "Turno: "+jugadores[0].nombre
+            }
+        }
+
+        btnF2.setOnClickListener{
+            if (jugadores[0].turno == true){
+                if(Resultado == Resultado2 && fichas[1].Posicion != 0){
+                    fichas[1].PosAnterior = fichas[1].Posicion
+                    fichas[1].Posicion = fichas[1].Posicion + Resultado + Resultado2
+                    actualizarVistaFichaEnCasilla(0,1,fichas[1].Posicion)
+                    if (fichas[1].Posicion == fichas [2].Posicion){
+
+                    } else if (fichas[1].Posicion == fichas[3].Posicion){
+
+                    }
+                } else {
+                    if (Resultado != 0){
+                        fichas[1].PosAnterior = fichas[1].Posicion
+                        fichas[1].Posicion = fichas[1].Posicion + Resultado
+                        actualizarVistaFichaEnCasilla(0,1,fichas[1].Posicion)
+                        Resultado = 0
+                    }else if (Resultado2 != 0){
+                        fichas[1].PosAnterior = fichas[1].Posicion
+                        fichas[1].Posicion = fichas[1].Posicion + Resultado2
+                        actualizarVistaFichaEnCasilla(0,1,fichas[1].Posicion)
+                    }
+                }
+                jugadores[0].turno == false
+                jugadores[1].turno == true
+                txtToast.text = "Turno: "+jugadores[1].nombre
+            }else if(jugadores[1].turno == true){
+                if(Resultado == Resultado2 && fichas[3].Posicion != 0){
+                    fichas[3].PosAnterior = fichas[3].Posicion
+                    fichas[3].Posicion = fichas[3].Posicion + Resultado + Resultado2
+                    actualizarVistaFichaEnCasilla(1,3,fichas[3].Posicion)
+                } else {
+                    if (Resultado != 0){
+                        fichas[3].PosAnterior = fichas[3].Posicion
+                        fichas[3].Posicion = fichas[3].Posicion + Resultado
+                        actualizarVistaFichaEnCasilla(1,3,fichas[3].Posicion)
+                        Resultado = 0
+
+                    } else if (Resultado2 != 0){
+                        fichas[3].PosAnterior = fichas[3].Posicion
+                        fichas[3].Posicion = fichas[3].Posicion + Resultado2
+                        actualizarVistaFichaEnCasilla(1,3,fichas[3].Posicion)
+                    }
+                }
+
+                jugadores[1].turno == false
+                jugadores[0].turno == true
+                txtToast.text = "Turno: "+jugadores[0].nombre
+            }
+        }
+
+        home.setOnClickListener {
+            val intent: Intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
+        }
+
+
+    }
+
+    //Realiza los movimientos en el tablero
+    private fun actualizarVistaFichaEnCasilla(jugadorIndex: Int, fichaIndex: Int, nuevaPosicion: Int) {
+        val jugador = jugadores[jugadorIndex]
+        val ficha = fichas[fichaIndex]
+
+        // Encuentra la casilla en el mapa correspondiente a la nueva posición
+        var casilla = mapa.find { it.numero == nuevaPosicion }
+
+        // Asegúrate de que la casilla no sea nula (puede ocurrir si la posición no está en el mapa)
+        if (casilla != null) {
+            // Actualiza la vista de la casilla según el tipo de casilla
+            when (casilla.Tipo) {
+                TipoCasilla.CELDA -> {
+                    if (casilla.casilla.text == "O") {
+                        if (ficha.PosAnterior == ficha.Celda) {
+                            casilla = mapa.find { it.numero == ficha.PosAnterior }
+                            if (casilla != null) {
+                                casilla.casilla.text = ""
+                            }
+                            casilla = mapa.find { it.numero == nuevaPosicion }
+                            if (casilla != null) {
+                                casilla.casilla.text = "OO"
+                            }
+                            if (casilla != null) {
+                                casilla.casilla.setTextColor(Color.parseColor(jugador.Team))
+                            }
+                        }else{
+                            casilla = mapa.find { it.numero == ficha.PosAnterior }
+                            if (casilla != null) {
+                                casilla.casilla.text = ""
+                            }
+                            casilla = mapa.find { it.numero == nuevaPosicion }
+                            if (casilla != null) {
+                                casilla.casilla.text = "OO"
+                            }
+                            if (casilla != null) {
+                                casilla.casilla.setTextColor(Color.parseColor(jugador.Team))
+                            }
+                        }
+                    }else{
+                        if (ficha.PosAnterior == ficha.Celda) {
+                            casilla = mapa.find { it.numero == ficha.PosAnterior }
+                            if (casilla != null) {
+                                casilla.casilla.text = ""
+                            }
+                            casilla = mapa.find { it.numero == nuevaPosicion }
+                            if (casilla != null) {
+                                casilla.casilla.text = "O"
+                            }
+                            if (casilla != null) {
+                                casilla.casilla.setTextColor(Color.parseColor(jugador.Team))
+                            }
+                        }else{
+                            casilla = mapa.find { it.numero == ficha.PosAnterior }
+                            if (casilla != null) {
+                                casilla.casilla.text = ""
+                            }
+                            casilla = mapa.find { it.numero == nuevaPosicion }
+                            if (casilla != null) {
+                                casilla.casilla.text = "O"
+                            }
+                            if (casilla != null) {
+                                casilla.casilla.setTextColor(Color.parseColor(jugador.Team))
+                            }
+                        }
+                    }
+
+                }
+                TipoCasilla.SALIDA_VERDE, TipoCasilla.SALIDA_AZUL -> {
+                    if (casilla.casilla.text == "O") {
+                        casilla = mapa.find { it.numero == ficha.PosAnterior }
+                        if (casilla != null) {
+                            casilla.casilla.text = ""
+                        }
+                        casilla = mapa.find { it.numero == nuevaPosicion }
+                        if (casilla != null) {
+                            casilla.casilla.text = "OO"
+                        }
+                        if (casilla != null) {
+                            casilla.casilla.setTextColor(Color.parseColor(jugador.Team))
+                        }
+                    }else{
+                        casilla = mapa.find { it.numero == ficha.PosAnterior }
+                        if (casilla != null) {
+                            casilla.casilla.text = ""
+                        }
+                        casilla = mapa.find { it.numero == nuevaPosicion }
+                        if (casilla != null) {
+                            casilla.casilla.text = "O"
+                        }
+                        if (casilla != null) {
+                            casilla.casilla.setTextColor(Color.parseColor(jugador.Team))
+                        }
+                    }
+                }
+                TipoCasilla.SEGURO -> {
+                    if (casilla.casilla.text == "O") {
+                        casilla = mapa.find { it.numero == ficha.PosAnterior }
+                        if (casilla != null) {
+                            casilla.casilla.text = ""
+                        }
+                        casilla = mapa.find { it.numero == nuevaPosicion }
+                        if (casilla != null) {
+                            casilla.casilla.text = "OO"
+                        }
+                        if (casilla != null) {
+                            casilla.casilla.setTextColor(Color.parseColor(jugador.Team))
+                        }
+                    }else{
+                        casilla = mapa.find { it.numero == ficha.PosAnterior }
+                        if (casilla != null) {
+                            casilla.casilla.text = ""
+                        }
+                        casilla = mapa.find { it.numero == nuevaPosicion }
+                        if (casilla != null) {
+                            casilla.casilla.text = "O"
+                        }
+                        if (casilla != null) {
+                            casilla.casilla.setTextColor(Color.parseColor(jugador.Team))
+                        }
+                    }
+                }
+                TipoCasilla.NORMAL->{
+                    if (casilla.casilla.text == "O") {
+                        casilla = mapa.find { it.numero == ficha.PosAnterior }
+                        if (casilla != null) {
+                            casilla.casilla.text = ""
+                        }
+                        casilla = mapa.find { it.numero == nuevaPosicion }
+                        if (casilla != null) {
+                            casilla.casilla.text = "OO"
+                        }
+                        if (casilla != null) {
+                            casilla.casilla.setTextColor(Color.parseColor(jugador.Team))
+                        }
+                    }else{
+                        casilla = mapa.find { it.numero == ficha.PosAnterior }
+                        if (casilla != null) {
+                            casilla.casilla.text = ""
+                        }
+                        casilla = mapa.find { it.numero == nuevaPosicion }
+                        if (casilla != null) {
+                            casilla.casilla.text = "O"
+                        }
+                        if (casilla != null) {
+                            casilla.casilla.setTextColor(Color.parseColor(jugador.Team))
+                        }
+                    }
+                }
+                TipoCasilla.SUBIDA_VERDE, TipoCasilla.SUBIDA_AZUL -> {
+
+                }
+                TipoCasilla.CAMINO -> {
+                    if (casilla.casilla.text == "O") {
+                        casilla = mapa.find { it.numero == ficha.PosAnterior }
+                        if (casilla != null) {
+                            casilla.casilla.text = ""
+                        }
+                        casilla = mapa.find { it.numero == nuevaPosicion }
+                        if (casilla != null) {
+                            casilla.casilla.text = "OO"
+                        }
+                        if (casilla != null) {
+                            casilla.casilla.setTextColor(Color.parseColor(jugador.Team))
+                        }
+                    }else{
+                        casilla = mapa.find { it.numero == ficha.PosAnterior }
+                        if (casilla != null) {
+                            casilla.casilla.text = ""
+                        }
+                        casilla = mapa.find { it.numero == nuevaPosicion }
+                        if (casilla != null) {
+                            casilla.casilla.text = "O"
+                        }
+                        if (casilla != null) {
+                            casilla.casilla.setTextColor(Color.parseColor(jugador.Team))
+                        }
+                    }
+                }
+                TipoCasilla.GANADOR_VERDE, TipoCasilla.GANADOR_AZUL -> {
+                    if (casilla.casilla.text == "O") {
+                        casilla = mapa.find { it.numero == ficha.PosAnterior }
+                        if (casilla != null) {
+                            casilla.casilla.text = ""
+                        }
+                        casilla = mapa.find { it.numero == nuevaPosicion }
+                        if (casilla != null) {
+                            casilla.casilla.text = "OO"
+                        }
+                        if (casilla != null) {
+                            casilla.casilla.setTextColor(Color.parseColor(jugador.Team))
+                        }
+                    }else{
+                        casilla = mapa.find { it.numero == ficha.PosAnterior }
+                        if (casilla != null) {
+                            casilla.casilla.text = ""
+                        }
+                        casilla = mapa.find { it.numero == nuevaPosicion }
+                        if (casilla != null) {
+                            casilla.casilla.text = "O"
+                        }
+                        if (casilla != null) {
+                            casilla.casilla.setTextColor(Color.parseColor(jugador.Team))
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun activeMap(){
         //Fichas generadas en sus respecivas celdas
-        fichas.add(Fichas(1, "Green",0, 501))
-        fichas.add(Fichas(2, "Green",0, 502))
-        fichas.add(Fichas(1, "Blue",0, 503))
-        fichas.add(Fichas(2, "Blue",0, 504))
+        fichas.add(Fichas(1, "GREEN",501, 0,501))
+        fichas.add(Fichas(2, "GREEN",502, 0,502))
+        fichas.add(Fichas(1, "BLUE",503, 0,503))
+        fichas.add(Fichas(2, "BLUE",504, 0,504))
 
         //Mapeo de las casillas
         mapa.add(TableroMap(501, TipoCasilla.CELDA, findViewById<TextView>(R.id.casillagreen1)))
@@ -126,11 +532,6 @@ class BoardActivity : AppCompatActivity() {
         mapa.add(TableroMap(158, TipoCasilla.GANADOR_VERDE, findViewById<TextView>(R.id.casillagwinner)))
         mapa.add(TableroMap(124, TipoCasilla.GANADOR_AZUL, findViewById<TextView>(R.id.casillabwinner)))
 
-        home.setOnClickListener {
-            val intent: Intent = Intent(this, MainActivity::class.java)
-            startActivity(intent)
-        }
-
-
     }
 }
+

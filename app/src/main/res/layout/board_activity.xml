@@ -64,7 +64,7 @@
         <TextView
             android:id="@+id/txtGanador"
             android:layout_width="414dp"
-            android:layout_height="40dp"
+            android:layout_height="58dp"
             android:layout_weight="1"
             android:ems="10"
             android:fontFamily="@font/superdessert"
